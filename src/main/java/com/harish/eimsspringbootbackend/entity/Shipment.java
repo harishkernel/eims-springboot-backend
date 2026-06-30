@@ -1,9 +1,6 @@
 package com.harish.eimsspringbootbackend.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -19,8 +16,15 @@ public class Shipment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long shipmentId;
-    private Long orderId;
-    private Long warehouseId;
+
+    @ManyToOne
+    @JoinColumn(name = "order_id")
+    private UserOrder userOrder;
+
+    @ManyToOne
+    @JoinColumn(name = "warehouse_id")
+    private Warehouse warehouse;
+
     private String trackingId;
     private String carrier;
     private String status;

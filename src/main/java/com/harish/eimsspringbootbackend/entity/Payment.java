@@ -1,9 +1,6 @@
 package com.harish.eimsspringbootbackend.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -19,7 +16,10 @@ public class Payment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long paymentId;
-    private Long orderId;
+
+    @ManyToOne
+    @JoinColumn(name = "order_id")
+    private UserOrder userOrder;
     private BigDecimal amount;
     private String paymentMode;
     private String txnId;

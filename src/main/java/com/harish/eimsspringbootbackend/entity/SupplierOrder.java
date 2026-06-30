@@ -1,9 +1,6 @@
 package com.harish.eimsspringbootbackend.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -19,9 +16,19 @@ public class SupplierOrder {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long supplierOrderId;
-    private Long supplierId;
-    private Long warehouseId;
-    private Long productId;
+
+    @ManyToOne
+    @JoinColumn(name = "supplier_id")
+    private Supplier supplier;
+
+    @ManyToOne
+    @JoinColumn(name = "warehouse_id")
+    private Warehouse warehouse;
+
+    @ManyToOne
+    @JoinColumn(name = "product_id")
+    private Product product;
+
     private Long productQuantity;
     private BigDecimal supplierPrice;
     private String status;
