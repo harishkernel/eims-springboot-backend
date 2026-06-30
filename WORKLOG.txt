@@ -1,3 +1,4 @@
 *validation --> @Min(atleast = 1, message = "negative values not allowed),..
 contains more annotations (@NotNull),..
 
+*No repository, service and controller class for UserOrderDetailKey and related classes as they are just composite PK helper classes
