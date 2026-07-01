@@ -14,17 +14,15 @@ import java.util.List;
 public class UserOrderService {
     private final UserOrderRepository userOrderRepository;
     private final InventoryService inventoryService;
-    private final PaymentService paymentService;
     private final UserService userService;
     private final ProductService productService;
     private final WarehouseService warehouseService;
     private final UserOrderDetailsService userOrderDetailsService;
 
-    public UserOrderService(UserOrderRepository userOrderRepository, InventoryService inventoryService, PaymentService paymentService, UserService userService, ProductService productService, WarehouseService warehouseService, UserOrderDetailsService userOrderDetailsService) {
+    public UserOrderService(UserOrderRepository userOrderRepository, InventoryService inventoryService, UserService userService, ProductService productService, WarehouseService warehouseService, UserOrderDetailsService userOrderDetailsService) {
         this.userOrderRepository = userOrderRepository;
         this.userService = userService;
         this.inventoryService = inventoryService;
-        this.paymentService = paymentService;
         this.productService = productService;
         this.warehouseService = warehouseService;
         this.userOrderDetailsService = userOrderDetailsService;

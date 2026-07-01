@@ -14,20 +14,26 @@ import java.util.List;
 @Service
 public class UserOrderDetailsService {
     private final UserOrderDetailRepository userOrderDetailRepository;
-    private final UserOrderService userOrderService;
-    public UserOrderDetailsService(UserOrderDetailRepository userOrderDetailRepository, UserOrderService userOrderService) {
+    public UserOrderDetailsService(UserOrderDetailRepository userOrderDetailRepository) {
         this.userOrderDetailRepository = userOrderDetailRepository;
-        this.userOrderService = userOrderService;
+    }
+
+    public List<UserOrderDetail> getUserOrderDetails(Long orderId) {
+        return userOrderDetailRepository.findByOrder_OrderId(orderId);
     }
 
     public List<OrderItemDTO> getOrderDetails(Long userId, Long orderId) {
-        UserOrder userOrder = userOrderService.getUserOrder(orderId);
+        List<UserOrderDetail> details = getUserOrderDetails(orderId);
+        if(details.isEmpty()) {
+            throw new RuntimeException("Order not found");
+        }
+
+        UserOrder userOrder = details.getFirst().getOrder();
         if(!userOrder.getUser().getId().equals(userId)) {
             throw new RuntimeException("Unauthorized access to order details !!");
         }
         List<OrderItemDTO> list = new ArrayList<>();
-        List<UserOrderDetail> orderDetails = userOrderDetailRepository.findByOrder_OrderId(orderId);
-        for(UserOrderDetail detail: orderDetails) {
+        for(UserOrderDetail detail: details) {
             Product product = detail.getProduct();
             OrderItemDTO dto = new OrderItemDTO(
                     product.getId(),
@@ -54,9 +60,13 @@ public class UserOrderDetailsService {
     }
 
     public BigDecimal getTotalPrice(Long userId, Long orderId) {
-        UserOrder userOrder = userOrderService.getUserOrder(orderId);
-        if (!userOrder.getUser().getId().equals(userId)) {
-            throw new RuntimeException("Unauthorized access to order details!");
+        List<UserOrderDetail> details = getUserOrderDetails(orderId);
+        if(details.isEmpty()) {
+            throw new RuntimeException("Order not found");
+        }
+        UserOrder userOrder = details.getFirst().getOrder();
+        if(!userOrder.getUser().getId().equals(userId)) {
+            throw new RuntimeException("Unauthorized access to order details !!");
         }
         return getTotalPrice(orderId);
     }
