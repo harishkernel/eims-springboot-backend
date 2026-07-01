@@ -40,6 +40,10 @@ public class UserOrderDetailsService {
         return list;
     }
 
+    public void saveOrderDetail(UserOrderDetail detail) {
+        userOrderDetailRepository.save(detail);
+    }
+
     // explicitly created 2 methods for the ease of Payment stuff ;)
     public BigDecimal getTotalPrice(Long orderId) {
         List<UserOrderDetail> orderDetails = userOrderDetailRepository.findByOrder_OrderId(orderId);
