@@ -25,7 +25,6 @@ public class UserOrderDetailsService {
         if(!userOrder.getUser().getId().equals(userId)) {
             throw new RuntimeException("Unauthorized access to order details !!");
         }
-
         List<OrderItemDTO> list = new ArrayList<>();
         List<UserOrderDetail> orderDetails = userOrderDetailRepository.findByOrder_OrderId(orderId);
         for(UserOrderDetail detail: orderDetails) {
@@ -41,11 +40,21 @@ public class UserOrderDetailsService {
         return list;
     }
 
-    public BigDecimal getTotalPrice(Long userId, Long orderId) {
-        List<OrderItemDTO> items = getOrderDetails(userId, orderId);
-        return items.stream()
-                .map(item -> item.getPrice().multiply(BigDecimal.valueOf(item.getQuantity())))
+    // explicitly created 2 methods for the ease of Payment stuff ;)
+    public BigDecimal getTotalPrice(Long orderId) {
+        List<UserOrderDetail> orderDetails = userOrderDetailRepository.findByOrder_OrderId(orderId);
+        return orderDetails.stream()
+                .map(detail -> detail.getPerQuantityPrice()
+                        .multiply(BigDecimal.valueOf(detail.getQuantity())))
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
+    }
+
+    public BigDecimal getTotalPrice(Long userId, Long orderId) {
+        UserOrder userOrder = userOrderService.getUserOrder(orderId);
+        if (!userOrder.getUser().getId().equals(userId)) {
+            throw new RuntimeException("Unauthorized access to order details!");
+        }
+        return getTotalPrice(orderId);
     }
 
     public List<UserOrderDetail> getOrderSummary(Long userId) {
