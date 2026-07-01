@@ -37,6 +37,9 @@ public class UserService {
 
     public User updateUser(Long userId, UserRequestDTO dto) {
         User existing = getUser(userId);
+        if(!existing.getRole().equals(dto.getRole())) {
+            throw new RuntimeException("Unauthorized access to change role !!");
+        }
         existing.setAddress(dto.getAddress());
         existing.setPhone(dto.getPhone());
         existing.setState(dto.getState());
