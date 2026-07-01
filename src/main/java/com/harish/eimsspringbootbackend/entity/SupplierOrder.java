@@ -29,7 +29,7 @@ public class SupplierOrder {
     @JoinColumn(name = "product_id")
     private Product product;
 
-    private Long productQuantity;
+    private Integer productQuantity;
     private BigDecimal supplierPrice;
     private String status;
     private LocalDate supplierOrderDate;
