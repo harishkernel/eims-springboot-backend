@@ -5,3 +5,19 @@ contains more annotations (@NotNull),..
 
 * never create repository injections in other related classes, always work with services
 * @Transactional stops the activity from altering db in the middle of activity
+
+
+UserController:
+
+/ ***** LATER in AuthController ********* /
+
+POST /auth/login/user --- email, pass
+POST /auth/login/admin ---- admin login
+
+/ ***** LATER in AuthController ********* /
+
+POST /users/register	--- registerUser()
+DELETE /users/userId
+GET /users
+GET /users/userId -- show profile page
+PUT /users/userId --- update Details with UserRequestDTO class
