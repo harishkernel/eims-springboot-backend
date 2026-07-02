@@ -44,7 +44,9 @@ public class SupplierService {
         return supplierRepository.save(existing);
     }
 
-    public void deleteSupplier(Long supplierId) {
-        supplierRepository.deleteById(supplierId);
-    }
+//    public void deleteSupplier(Long supplierId) {
+//        supplierRepository.deleteById(supplierId);
+//    }
+
+    // should not delete Supplier, what if we need details of deletedSupplier ??
 }
