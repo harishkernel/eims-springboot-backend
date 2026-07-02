@@ -17,15 +17,15 @@ public class UserOrderService {
     private final UserService userService;
     private final ProductService productService;
     private final WarehouseService warehouseService;
-    private final UserOrderDetailsService userOrderDetailsService;
+    private final UserOrderDetailService userOrderDetailService;
 
-    public UserOrderService(UserOrderRepository userOrderRepository, InventoryService inventoryService, UserService userService, ProductService productService, WarehouseService warehouseService, UserOrderDetailsService userOrderDetailsService) {
+    public UserOrderService(UserOrderRepository userOrderRepository, InventoryService inventoryService, UserService userService, ProductService productService, WarehouseService warehouseService, UserOrderDetailService userOrderDetailService) {
         this.userOrderRepository = userOrderRepository;
         this.userService = userService;
         this.inventoryService = inventoryService;
         this.productService = productService;
         this.warehouseService = warehouseService;
-        this.userOrderDetailsService = userOrderDetailsService;
+        this.userOrderDetailService = userOrderDetailService;
     }
 
     public UserOrder getUserOrder(Long orderId) {
@@ -80,7 +80,7 @@ public class UserOrderService {
             userOrderDetail.setWarehouse(warehouse);
             userOrderDetail.setPerQuantityPrice(product.getPrice());
 
-            userOrderDetailsService.saveOrderDetail(userOrderDetail);
+            userOrderDetailService.saveOrderDetail(userOrderDetail);
         }
         return savedOrder;
     }

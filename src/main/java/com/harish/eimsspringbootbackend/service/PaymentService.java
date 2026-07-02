@@ -14,13 +14,13 @@ import java.util.UUID;
 public class PaymentService {
 
     private final PaymentRepository paymentRepository;
-    private final UserOrderDetailsService userOrderDetailsService;
+    private final UserOrderDetailService userOrderDetailService;
     private final UserOrderService userOrderService;
 
-    public PaymentService(PaymentRepository paymentRepository, UserOrderDetailsService userOrderDetailsService,
+    public PaymentService(PaymentRepository paymentRepository, UserOrderDetailService userOrderDetailService,
                           UserOrderService userOrderService) {
         this.paymentRepository = paymentRepository;
-        this.userOrderDetailsService = userOrderDetailsService;
+        this.userOrderDetailService = userOrderDetailService;
         this.userOrderService = userOrderService;
     }
 
@@ -50,7 +50,7 @@ public class PaymentService {
         Payment payment = new Payment();
         payment.setUserOrder(order);
         payment.setAmount(
-                userOrderDetailsService.getTotalPrice(order.getOrderId()));
+                userOrderDetailService.getTotalPrice(order.getOrderId()));
         payment.setPaymentMode(dto.getPaymentMode());
         payment.setTxnId(UUID.randomUUID().toString());
         payment.setStatus("SUCCESS");

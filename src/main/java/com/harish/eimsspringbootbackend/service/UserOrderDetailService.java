@@ -12,9 +12,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class UserOrderDetailsService {
+public class UserOrderDetailService {
     private final UserOrderDetailRepository userOrderDetailRepository;
-    public UserOrderDetailsService(UserOrderDetailRepository userOrderDetailRepository) {
+    public UserOrderDetailService(UserOrderDetailRepository userOrderDetailRepository) {
         this.userOrderDetailRepository = userOrderDetailRepository;
     }
 
@@ -71,7 +71,19 @@ public class UserOrderDetailsService {
         return getTotalPrice(orderId);
     }
 
-    public List<UserOrderDetail> getOrderSummary(Long userId) {
-        return userOrderDetailRepository.findByOrder_User_Id(userId);
+    public List<OrderItemDTO> getOrderSummary(Long userId) {
+        List<UserOrderDetail> details = userOrderDetailRepository.findByOrder_User_Id(userId);
+        List<OrderItemDTO> list = new ArrayList<>();
+
+        for(UserOrderDetail detail: details) {
+            OrderItemDTO dto = new OrderItemDTO(
+                    detail.getProduct().getId(),
+                    detail.getProduct().getName(),
+                    detail.getQuantity(),
+                    detail.getPerQuantityPrice()
+            );
+            list.add(dto);
+        }
+        return list;
     }
 }
